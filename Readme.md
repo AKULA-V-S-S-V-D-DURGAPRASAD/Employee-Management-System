@@ -133,12 +133,10 @@ This will start your application on `http://localhost:8080`.
 <h3>Project Progress</h3>
 
 
-New
-Backend Implementation: <progress value="80" max="100"></progress> 60%  
-Frontend Development: <progress value="50" max="100"></progress> 50%  
-API Integration: <progress value="30" max="100"></progress> 30%  
+NewBackend Implementation: <progress value="80" max="100"></progress> 100%  
+Frontend Development: <progress value="100" max="100"></progress> 100%  
+API Integration: <progress value="100" max="100"></progress> 100%  
 Database Setup: <progress value="100" max="100"></progress> 100%  
-Serialport Integration: <progress value="50" max="100"></progress>50%
 
 ## Contact
 
