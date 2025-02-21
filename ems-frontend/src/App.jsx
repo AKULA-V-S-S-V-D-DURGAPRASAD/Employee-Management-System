@@ -1,5 +1,4 @@
 import './App.css';
-import FooterComponent from "./Components/FooterComponent"
 import HeaderComponent from "./Components/HeaderComponent"
 import ListEmployeeComponent from "./Components/ListEmployeeComponent"
 import EmployeeComponent from "./Components/EmployeeComponent"
@@ -20,7 +19,6 @@ function App() {
           {/* //http://localhost:3000/edit-employee/1 */}
           <Route path='/edit-employee/:id' element = { <EmployeeComponent/>}/>
       </Routes>
-      <FooterComponent/>
     </BrowserRouter>
     </>
   )
