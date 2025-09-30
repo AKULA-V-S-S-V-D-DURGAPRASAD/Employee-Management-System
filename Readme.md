@@ -50,13 +50,13 @@ This is the front-end part of the Reactjs-Spring-Boot-Full-Stack-App. It is buil
 - Responsive design for better user experience.
 
 ## Installation
-1. Navigate to the `react-frontend` directory:
+1. Navigate to the `ems-frontend` directory:
 2. Install dependencies:
 
 ## Running the Application
 To start the React application, run:
 The application will be available at `http://localhost:3000`.
-- cd ../react-frontend
+- cd ../ems-frontend
 - npm install
 - npm start
 
@@ -77,10 +77,10 @@ This is the back-end part of the rameshmf-reactjs-spring-boot-crud-full-stack-ap
 - Exception handling for better error management.
 
 ## Installation
-1. Navigate to the `springboot-backend` directory:
+1. Navigate to the `ems-backend` directory:
 
 2. Build the Project:
-- cd springboot-backend
+- cd ems-backend
  - Run this ommand to get the files in the Directory 
  - You can build the project and download the necessary dependencies using Maven. Run the following command:
 This command compiles the code, runs tests, and packages the application into a JAR file.

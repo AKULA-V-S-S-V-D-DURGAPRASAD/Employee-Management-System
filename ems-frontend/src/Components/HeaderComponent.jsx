@@ -1,11 +1,11 @@
-import React from 'react'
-
 const HeaderComponent = () => {
   return (
     <div>
         <header>
-            <nav className='navbar navbar-expand-md navbar-dark bg-dark'>
-                <a className = "navbar-brand" href="#">Employee Management System</a>
+            <nav className='navbar navbar-expand-md navbar-dark bg-gradient'>
+                <a className="navbar-brand d-flex align-items-center" href="#">
+                    👥 Employee Management System
+                </a>
             </nav>
         </header>
     </div>

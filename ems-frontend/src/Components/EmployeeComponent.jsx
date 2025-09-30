@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createEmployee, getEmployee, updateEmployee } from '../services/EmployeeService'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -7,15 +7,18 @@ const EmployeeComponent = () => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
+  const [position, setPosition] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const { id } = useParams();
 
     const [errors, setErrors] = useState({
     firstName : '',
     lastName : '',
-    email : ''
+    email : '',
+    position : ''
   })
-  
+
   const navigator = useNavigate();
 
   useEffect(() => {
@@ -25,6 +28,7 @@ const EmployeeComponent = () => {
           setFirstName(response.data.firstName);
           setLastName(response.data.lastName);
           setEmail(response.data.email);
+          setPosition(response.data.position);
       }).catch(error => {
         console.error(error)
       })
@@ -36,7 +40,8 @@ const EmployeeComponent = () => {
     e.preventDefault();
 
     if(validateForm ()) {
-      const employee = {firstName: firstName, lastName: lastName, email: email}
+      setIsLoading(true);
+      const employee = {firstName, lastName, email, position}
       console.log('employee => ' + JSON.stringify(employee))
 
       if (id) {
@@ -44,16 +49,20 @@ const EmployeeComponent = () => {
           console.log('Response from updateEmployee: ', response.data);
           alert('Employee updated successfully.')
           navigator('/employees');
+          setIsLoading(false);
         }).catch(error => {
           console.error(error)
+          setIsLoading(false);
         })
       } else {
         createEmployee(employee).then(response => {
         console.log('Response from createEmployee: ', response.data)
         alert('Employee added successfully.')
         navigator('/employees')
+        setIsLoading(false);
         }).catch(error => {
           console.error(error)
+          setIsLoading(false);
         })
       }
      }
@@ -64,7 +73,7 @@ const EmployeeComponent = () => {
 
     const errorsCopy = {... errors}
 
-    if (email.trim()) {
+    if (firstName.trim()) {
       errorsCopy.firstName = ''
     } else {
       errorsCopy.firstName = 'First Name is required'
@@ -78,10 +87,17 @@ const EmployeeComponent = () => {
       valid = false
     }
 
-    if (firstName.trim()) {
+    if (email.trim()) {
       errorsCopy.email = ''
     } else {
       errorsCopy.email = 'Email is required'
+      valid = false
+    }
+
+    if (position.trim()) {
+      errorsCopy.position = ''
+    } else {
+      errorsCopy.position = 'Position is required'
       valid = false
     }
 
@@ -98,58 +114,81 @@ const EmployeeComponent = () => {
   }
 
   return (
-    <div className='container'>
-      <br /> <br />
-      <div className='row'>
-        <div className='card col-md-6 offset-md-3 offset-md-3'>
-          {
-            pageTitle()
-          }
-          <div className='card-body'>
-            <form>
+    <div className='full-page'>
+      <div style={{height: '2rem'}}></div>
+      <div className='container'>
+        {
+          pageTitle()
+        }
+        <form>
+          <div className='row'>
+            <div className='col-md-6'>
               <div className='form-group mb-2'>
                 <label className='form-label'>First Name</label>
                 <input
-                  type="text" 
+                  type="text"
                   placeholder='Enter Employee First Name'
-                  name='firstName' 
+                  name='firstName'
                   value={firstName}
-                  className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
+                  className={`input-field ${errors.firstName ? 'is-invalid' : ''}`}
                   onChange={(e) => setFirstName(e.target.value)}
                 />
-                {errors.firstName && <div className='invalid-feedback'>{errors.firstName}</div>}
+                {errors.firstName && <div className='error-message'>{errors.firstName}</div>}
               </div>
+            </div>
 
+            <div className='col-md-6'>
               <div className='form-group mb-2'>
                 <label className='form-label'>Last Name</label>
                 <input
-                  type="text" 
+                  type="text"
                   placeholder='Enter Employee Last Name'
-                  name='lastName' 
+                  name='lastName'
                   value={lastName}
-                  className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
+                  className={`input-field ${errors.lastName ? 'is-invalid' : ''}`}
                   onChange={(e) => setLastName(e.target.value)}
                 />
-                {errors.lastName && <div className='invalid-feedback'>{errors.lastName}</div>}
+                {errors.lastName && <div className='error-message'>{errors.lastName}</div>}
                 </div>
+            </div>
+          </div>
 
+          <div className='row'>
+            <div className='col-md-6'>
               <div className='form-group mb-2'>
                 <label className='form-label'>Email</label>
                 <input
-                  type="text" 
+                  type="text"
                   placeholder='Enter Employee Email'
-                  name='email' 
+                  name='email'
                   value={email}
-                  className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                  className={`input-field ${errors.email ? 'is-invalid' : ''}`}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                {errors.email && <div className='invalid-feedback'>{errors.email}</div>}
+                {errors.email && <div className='error-message'>{errors.email}</div>}
               </div>
-              <button className='btn btn-success' onClick={saveOrUpdateEmployee}>Submit</button>
-            </form>
-          </div>
-        </div>
+            </div>
 
+            <div className='col-md-6'>
+              <div className='form-group mb-2'>
+                <label className='form-label'>Position</label>
+                <input
+                  type="text"
+                  placeholder='Enter Employee Position'
+                  name='position'
+                  value={position}
+                  className={`input-field ${errors.position ? 'is-invalid' : ''}`}
+                  onChange={(e) => setPosition(e.target.value)}
+                />
+                {errors.position && <div className='error-message'>{errors.position}</div>}
+              </div>
+            </div>
+          </div>
+
+          <button className='btn btn-success' onClick={saveOrUpdateEmployee} disabled={isLoading}>
+            {isLoading ? <><div className='spinner'></div> Saving...</> : '💾 Submit'}
+          </button>
+        </form>
       </div>
     </div>
   )
